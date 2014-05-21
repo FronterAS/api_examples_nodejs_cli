@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "node-rest-client": "~0.8.3"
+  }
+}
