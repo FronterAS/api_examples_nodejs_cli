@@ -23,7 +23,7 @@ var Client = require('node-rest-client').Client,
     };
 
 client.post('https://api.fronter.com/clients', params, function (data, response) {
-  console.log(JSON.parse(data));
+  console.log(data);
 }).on('error', function (err) {
   console.log('err: ', err);
 });
