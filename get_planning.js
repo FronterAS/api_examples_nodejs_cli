@@ -1,39 +1,27 @@
 var Client = require('node-rest-client').Client,
     clientOptions = {
       connection: {
-        rejectUnauthorized: false,
+        rejectUnauthorized: true,
         requestCert: true,
       }
     },
     client = new Client(clientOptions),
-    tokenArgs = {
-      'data': {
-        'grant_type':'client_credentials',
-        'client_id':'foo',
-        'client_secret':'bar',
-        'scope':'*'
-      },
+
+    token = process.argv[2],
+
+    params = {
       headers: {
-        'Content-Type':'application/json'
+        'Content-Type' : 'application/json',
+        'Authorization' : 'bearer ' + token
       }
     };
 
-client.post('https://api.fronter.com/oauth/token', tokenArgs, function (data, response) {
-    console.log(data);
-
-    var clientArgs = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': data['token_type'] + ' ' + data['access_token']
-      }
-    };
-
-    client.get('https://api.fronter.com/planning/users/12345', clientArgs, function (data, response) {
-      console.log(data);
-    }).on('error', function (err) {
-      console.log('err: ', err);
-    });
-
+client.get('https://api.fronter.com/planning/users/12345', params, function (data, response) {
+  console.log(data);
 }).on('error', function (err) {
   console.log('err: ', err);
+});
+
+client.on('error', function (err) {
+ console.error(' client error : ', err);
 });
